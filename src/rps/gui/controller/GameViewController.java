@@ -54,19 +54,21 @@ public class GameViewController implements Initializable {
     private void handleRockGame(ActionEvent event){
         Image img = new Image("/images/rock.jpg");
         userMoveImg.setImage(img);
-
+        return Move.Rock;
     }
 
     @FXML
     private void handlePaperGame(ActionEvent event){
         Image img = new Image("/images/paper.jpg");
         userMoveImg.setImage(img);
+        return Move.Paper;
     }
 
     @FXML
     private void handleScissorGame(ActionEvent event){
         Image img = new Image("/images/scissors.jpg");
         userMoveImg.setImage(img);
+        return Move.Scissor;
     }
 
     /**
