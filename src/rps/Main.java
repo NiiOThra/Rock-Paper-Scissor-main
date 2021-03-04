@@ -24,7 +24,7 @@ public class Main {
         //JavaFX version
         startRPSJavaFXGame();
     }
-
+test
     /**
      * Start a JavaFX version of the game
      */
