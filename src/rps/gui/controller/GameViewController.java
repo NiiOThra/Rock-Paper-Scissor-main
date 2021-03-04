@@ -46,9 +46,6 @@ public class GameViewController implements Initializable {
     Image imgR = new Image("/images/rock.jpg");
     Image imgP = new Image("/images/paper.jpg");
     Image imgS = new Image("/images/scissors.jpg");
-    private Result result;
-    int botScore = 0;
-    int humanScore = 0;
 
 
     /**
@@ -71,45 +68,42 @@ public class GameViewController implements Initializable {
     @FXML
     private void handleRockGame(ActionEvent event) {
         int roundNumber = gameState.getRoundNumber();
-        if (roundNumber < 10) {
+        if (roundNumber < 100) {
             ge.playRound(Move.Rock);
             userMoveImg.setImage(imgR);
 
             setImageBot();
-            getScore();
 
             gameState.setRoundNumber(++roundNumber);
-            scoreBoardLbl.setText(humanScore + "   " + botScore);
+            scoreBoardLbl.setText(String.valueOf(roundNumber));
         } else showAlertHuman();
     }
 
     @FXML
     private void handlePaperGame(ActionEvent event) {
         int roundNumber = gameState.getRoundNumber();
-        if (roundNumber < 10) {
+        if (roundNumber < 100) {
             ge.playRound(Move.Paper);
             userMoveImg.setImage(imgP);
 
             setImageBot();
-            getScore();
 
             gameState.setRoundNumber(++roundNumber);
-            scoreBoardLbl.setText(humanScore + "   " + botScore);
+            scoreBoardLbl.setText(String.valueOf(roundNumber));
         }
     }
 
     @FXML
     private void handleScissorGame(ActionEvent event) {
         int roundNumber = gameState.getRoundNumber();
-        if (roundNumber < 10) {
+        if (roundNumber < 100) {
             ge.playRound(Move.Scissor);
             userMoveImg.setImage(imgS);
 
             setImageBot();
-            getScore();
 
             gameState.setRoundNumber(++roundNumber);
-            scoreBoardLbl.setText(humanScore + "   " + botScore);
+            scoreBoardLbl.setText(String.valueOf(roundNumber));
         }
     }
 
@@ -161,18 +155,5 @@ public class GameViewController implements Initializable {
         alertH.setTitle("You have won!!!");
         alertH.setContentText("You have won!!!");
         alertH.show();
-    }
-
-    public void getScore(){
-        if (userMoveImg.equals(imgP) && botMoveImg.equals(imgR)) {
-            humanScore++;
-        } else if (userMoveImg.equals(imgR) && botMoveImg.equals(imgS)) {
-            humanScore++;
-        } else if (userMoveImg.equals(imgS) && botMoveImg.equals(imgP)) {
-            humanScore++;
-        } else if (userMoveImg == botMoveImg) {
-            humanScore++;
-            botScore++;
-        } else botScore++;
     }
 }
