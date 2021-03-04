@@ -13,6 +13,7 @@ public class GameState implements IGameState {
     private ArrayList<Result> historicResults;
     private int roundNumber;
 
+
     /**
      *
      * @param historicResults
