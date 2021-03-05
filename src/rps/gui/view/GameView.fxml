@@ -49,16 +49,16 @@
             <Image url="@../../../../../../../Desktop/Programming/SCO/human.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="botMoveImg" fitHeight="168.0" fitWidth="191.0" layoutX="399.0" layoutY="107.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="botImg" fitHeight="168.0" fitWidth="191.0" layoutX="399.0" layoutY="107.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="userMoveImg" fitHeight="186.0" fitWidth="191.0" layoutX="14.0" layoutY="107.0" pickOnBounds="true" preserveRatio="true" />
-      <Label fx:id="scoreBoardLbl" alignment="CENTER" layoutX="229.0" layoutY="14.0" prefHeight="102.0" prefWidth="146.0" textAlignment="JUSTIFY">
+      <Label fx:id="scoreBoard" alignment="CENTER" layoutX="229.0" layoutY="14.0" prefHeight="102.0" prefWidth="146.0" textAlignment="JUSTIFY">
          <font>
             <Font size="35.0" />
          </font>
       </Label>
-      <Label fx:id="resultLbl" layoutX="150.0" layoutY="126.0" prefHeight="168.0" prefWidth="303.0" textFill="RED">
+      <Label fx:id="resultLbl" alignment="CENTER" layoutX="154.0" layoutY="232.0" prefHeight="86.0" prefWidth="296.0" textAlignment="CENTER" textFill="RED">
          <font>
-            <Font name="Arial Bold" size="36.0" />
+            <Font name="Arial Bold" size="14.0" />
          </font>
       </Label>
    </children>

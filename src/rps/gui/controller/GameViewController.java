@@ -5,8 +5,6 @@ package rps.gui.controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -35,89 +33,65 @@ public class GameViewController implements Initializable {
     @FXML
     private ImageView userMoveImg;
     @FXML
-    private ImageView botMoveImg;
-    @FXML
-    private Label userName;
-    @FXML
-    private Label scoreBoardLbl;
+    private ImageView botImg;
     @FXML
     private Label resultLbl;
+    @FXML
+    private Label scoreBoard;
 
     Image imgR = new Image("/images/rock.jpg");
     Image imgP = new Image("/images/paper.jpg");
     Image imgS = new Image("/images/scissors.jpg");
-
+    int humanScore = 0;
+    int botScore = 0;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        String playerName = userName.getText();
         String botName = getRandomBotName();
         botLbl.setText(botName);
-        human = new Player(playerName, PlayerType.Human);
+        human = new Player("human", PlayerType.Human);
         bot = new Player(botName, PlayerType.AI);
 
         ge = new GameManager(human, bot);
         gameState = new GameState(new ArrayList<>(), 0);
 
-        scoreBoardLbl.setText("Rounds\n played!");
+        botImg.setImage(new Image("/images/bot.png"));
     }
 
     @FXML
     private void handleRockGame(ActionEvent event) {
-        int roundNumber = gameState.getRoundNumber();
-        if (roundNumber < 100) {
-            ge.playRound(Move.Rock);
-            userMoveImg.setImage(imgR);
+        Result rockGame = ge.playRound(Move.Rock);
+        userMoveImg.setImage(imgR);
 
-            setImageBot();
+        getScoreBoard(rockGame);
+        getResultAsString(rockGame);
 
-            gameState.setRoundNumber(++roundNumber);
-            scoreBoardLbl.setText(String.valueOf(roundNumber));
-        } else showAlertHuman();
+        scoreBoard.setText((humanScore + "   " + botScore));
     }
 
     @FXML
     private void handlePaperGame(ActionEvent event) {
-        int roundNumber = gameState.getRoundNumber();
-        if (roundNumber < 100) {
-            ge.playRound(Move.Paper);
-            userMoveImg.setImage(imgP);
+        Result paperGame = ge.playRound(Move.Paper);
+        userMoveImg.setImage(imgP);
 
-            setImageBot();
+        getScoreBoard(paperGame);
+        getResultAsString(paperGame);
 
-            gameState.setRoundNumber(++roundNumber);
-            scoreBoardLbl.setText(String.valueOf(roundNumber));
-        }
+        scoreBoard.setText((humanScore + "   " + botScore));
     }
 
     @FXML
     private void handleScissorGame(ActionEvent event) {
-        int roundNumber = gameState.getRoundNumber();
-        if (roundNumber < 100) {
-            ge.playRound(Move.Scissor);
-            userMoveImg.setImage(imgS);
+        Result scissorGame = ge.playRound(Move.Scissor);
+        userMoveImg.setImage(imgS);
 
-            setImageBot();
+        getScoreBoard(scissorGame);
+        getResultAsString(scissorGame);
 
-            gameState.setRoundNumber(++roundNumber);
-            scoreBoardLbl.setText(String.valueOf(roundNumber));
-        }
-    }
-
-    public void setImageBot(){
-        Move botMove = bot.doMove(gameState);
-        if (botMove == Move.Rock) {
-            botMoveImg.setImage(imgR);
-
-        } else if (botMove == Move.Paper) {
-            botMoveImg.setImage(imgP);
-
-        } else if (botMove == Move.Scissor) {
-            botMoveImg.setImage(imgS);
-        }
+        scoreBoard.setText((humanScore + "   " + botScore));
     }
 
     /**
@@ -140,20 +114,21 @@ public class GameViewController implements Initializable {
         return botNames[randomNumber];
     }
 
-    public String getResultAsString(Result result) {
-        String statusText = result.getType() == ResultType.Win ? "wins over " : "ties ";
-
-        return "Round #" + result.getRoundNumber() + ":" +
-                result.getWinnerPlayer().getPlayerName() +
-                " (" + result.getWinnerMove() + ") " +
-                statusText + result.getLoserPlayer().getPlayerName() +
-                " (" + result.getLoserMove() + ")!";
+    private void getScoreBoard(Result humanPlay){
+        if (humanPlay.getWinnerPlayer().getPlayerName().equals("human") && !humanPlay.getType().name().equals("Tie")){
+            humanScore++;
+        } else if (humanPlay.getType() == ResultType.Tie) {
+            humanScore++;
+            botScore++;
+        } else botScore++;
     }
 
-    public void showAlertHuman(){
-        Alert alertH = new Alert(Alert.AlertType.INFORMATION);
-        alertH.setTitle("You have won!!!");
-        alertH.setContentText("You have won!!!");
-        alertH.show();
+    private void getResultAsString(Result result){
+        if (result.getType() == ResultType.Win) {
+            resultLbl.setText("Round#" + result.getRoundNumber() + ": \n" +
+                    result.getWinnerPlayer().getPlayerName() + " played " + result.getWinnerMove().name() + "\n and won over \n" +
+                    result.getLoserPlayer().getPlayerName() + " that played " + result.getLoserMove().name());
+        } else resultLbl.setText("Round#" + result.getRoundNumber() + ": \n it's a " + result.getType().name() + "!\n " +
+                result.getWinnerPlayer().getPlayerName() + " and " + result.getLoserPlayer().getPlayerName() + " \nboth played " + result.getWinnerMove());
     }
 }
